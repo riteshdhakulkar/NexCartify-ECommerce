@@ -8,7 +8,16 @@ const path = require("path");
 const cors = require("cors");
 
 app.use(express.json());
-app.use(cors());
+
+// ✅ FIXED CORS FOR VERCEL (FRONTEND + ADMIN)
+app.use(cors({
+    origin: [
+        "https://nex-cartify-e-commerce.vercel.app",
+        "https://nexcartify-admin.vercel.app"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true
+}));
 
 // DATABASE
 mongoose.connect("mongodb+srv://riteshdhakulkar:Ritesh1905@cluster0.hprzz5q.mongodb.net/e-commerce");
@@ -28,15 +37,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// STATIC IMAGES
 app.use('/images', express.static('upload/images'));
 
+// ✅ FIXED UPLOAD ROUTE (PRODUCTION SAFE)
 app.post("/upload", upload.single('product'), (req, res) => {
     res.json({
-        success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
+        success: true,
+        image_url: `https://nexcartify-ecommerce.onrender.com/images/${req.file.filename}`
     });
 });
-
 
 // PRODUCT MODEL
 const Product = mongoose.model("Product", {
@@ -164,74 +174,19 @@ const fetchUser = async (req, res, next) => {
     if (!token) {
         return res.status(401).json({ errors: "Please authenticate" });
     }
- else{
+
     try {
         const data = jwt.verify(token, 'secret_ecom');
         req.user = data.user;
         next();
     } catch (err) {
         return res.status(401).json({ errors: "Invalid token" });
-    }}
+    }
 };
 
-// // ADD TO CART
-// app.post('/addtocart', fetchUser, async (req, res) => {
-
-//     try {
-// console.log("Added:", req.body.itemId);
-// console.log("Received Size:", req.body.size);
-// console.log("User ID:", req.user.id);
-
-//         let userData = await Users.findOne({ _id: req.user.id });
-
-//         // CHECK USER
-//         if (!userData) {
-//             return res.status(404).json({
-//                 success: false,
-//                 errors: "User not found"
-//             });
-//         }
-
-//         // CREATE cartData IF MISSING
-//         if (!userData.cartData) {
-//             userData.cartData = {};
-//         }
-
-//         // CREATE ITEM IF MISSING
-//         if (!userData.cartData[req.body.itemId]) {
-//             userData.cartData[req.body.itemId] = 0;
-//         }
-
-//         // INCREMENT
-//         userData.cartData[req.body.itemId] += 1;
-
-//        await Users.findOneAndUpdate(
-//     { _id: req.user.id },
-    
-//     { $set: { cartData: userData.cartData } }
-// );
-//         res.json({
-//             success: true,
-//             message: "Added to cart"
-//         });
-
-//     } catch (error) {
-
-//         console.log(error);
-
-//         res.status(500).json({
-//             success: false,
-//             errors: "Server Error"
-//         });
-//     }
-// });
+// ADD TO CART (YOUR ORIGINAL LOGIC KEPT)
 app.post('/addtocart', fetchUser, async (req, res) => {
-
     try {
-
-        console.log("Added:", req.body.itemId);
-        console.log("Received Size:", req.body.size);
-        console.log("User ID:", req.user.id);
 
         let userData = await Users.findOne({ _id: req.user.id });
 
@@ -246,7 +201,6 @@ app.post('/addtocart', fetchUser, async (req, res) => {
             userData.cartData = {};
         }
 
-        // ✅ IMPORTANT FIX (SIZE INCLUDED)
         const { itemId, size } = req.body;
         const key = `${itemId}-${size}`;
 
@@ -279,59 +233,9 @@ app.post('/addtocart', fetchUser, async (req, res) => {
     }
 });
 
-// REMOVE FROM CART
-app.post('/removefromcart', fetchUser, async (req, res) => {
-
-    try {
-
-        console.log("Removed:", req.body.itemId);
-
-        let userData = await Users.findOne({ _id: req.user.id });
-
-        // CHECK USER
-        if (!userData) {
-            return res.status(404).json({
-                success: false,
-                errors: "User not found"
-            });
-        }
-
-        // CREATE cartData IF MISSING
-        if (!userData.cartData) {
-            userData.cartData = {};
-        }
-
-        const itemId = req.body.itemId;
-
-        // DECREMENT ONLY IF > 0
-        if (userData.cartData[itemId] > 0) {
-            userData.cartData[itemId] -= 1;
-        }
-await Users.findOneAndUpdate(
-    { _id: req.user.id },
-    { $set: { cartData: userData.cartData } }
-);
-
-        res.json({
-            success: true,
-            message: "Removed from cart"
-        });
-
-    } catch (error) {
-
-        console.log(error);
-
-        res.status(500).json({
-            success: false,
-            errors: "Server Error"
-        });
-    }
-});
-// GET CART DATA
+// GET CART
 app.post('/getcart', fetchUser, async (req, res) => {
-
     try {
-
         let userData = await Users.findOne({ _id: req.user.id });
 
         if (!userData) {
@@ -344,9 +248,7 @@ app.post('/getcart', fetchUser, async (req, res) => {
         res.json(userData.cartData);
 
     } catch (error) {
-
         console.log(error);
-
         res.status(500).json({
             success: false,
             errors: "Server Error"
@@ -354,37 +256,53 @@ app.post('/getcart', fetchUser, async (req, res) => {
     }
 });
 
-// // GET CART DATA
-// app.post('/getcart', fetchUser, async (req, res) => {
+// REMOVE FROM CART
+app.post('/removefromcart', fetchUser, async (req, res) => {
+    try {
+        const { itemId, size } = req.body;
+        const key = `${itemId}-${size}`;
 
-//     try {
+        let userData = await Users.findOne({ _id: req.user.id });
 
-//         let userData = await Users.findOne({ _id: req.user.id });
+        if (!userData) {
+            return res.status(404).json({
+                success: false,
+                errors: "User not found"
+            });
+        }
 
-//         if (!userData) {
-//             return res.status(404).json({
-//                 success: false,
-//                 errors: "User not found"
-//             });
-//         }
+        if (!userData.cartData) {
+            userData.cartData = {};
+        }
 
-//         res.json(userData.cartData);
+        if (userData.cartData[key]?.qty > 0) {
+            userData.cartData[key].qty -= 1;
 
-//     } catch (error) {
+            if (userData.cartData[key].qty === 0) {
+                delete userData.cartData[key];
+            }
+        }
 
-//         console.log(error);
+        await Users.updateOne(
+            { _id: req.user.id },
+            { $set: { cartData: userData.cartData } }
+        );
 
-//         res.status(500).json({
-//             success: false,
-//             errors: "Server Error"
-//         });
-//     }
-// });
+        res.json({
+            success: true,
+            message: "Removed from cart"
+        });
 
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            success: false,
+            errors: "Server Error"
+        });
+    }
+});
 
-
-
-// SERVER (ONLY ONCE)
+// SERVER
 app.listen(port, (error) => {
     if (!error) {
         console.log("Server Running on Port " + port);

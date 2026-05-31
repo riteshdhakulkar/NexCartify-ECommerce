@@ -364,62 +364,65 @@ const ShopContextProvider = (props) => {
 
     // ================= ADD TO CART =================
     const addToCart = (itemId, size) => {
+    const token = localStorage.getItem("auth-token");
 
-        const key = `${itemId}-${size}`;
+    if (!token) {
+        alert("Please login first");
+        return;
+    }
 
-        setCartItems((prev) => ({
-            ...prev,
-            [key]: {
-                itemId,
-                size,
-                qty: (prev[key]?.qty || 0) + 1
-            }
-        }));
+    const key = `${itemId}-${size}`;
 
-        const token = localStorage.getItem("auth-token");
-
-        if (token) {
-            fetch(`${API_URL}/addtocart`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token": token,
-                },
-                body: JSON.stringify({ itemId, size }),
-            }).catch(err => console.log(err));
+    setCartItems((prev) => ({
+        ...prev,
+        [key]: {
+            itemId,
+            size,
+            qty: (prev[key]?.qty || 0) + 1
         }
-    };
+    }));
 
+    fetch(`${API_URL}/addtocart`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+        },
+        body: JSON.stringify({ itemId, size }),
+    });
+};
     // ================= REMOVE FROM CART =================
-    const removeFromCart = (itemId, size) => {
+  const removeFromCart = (itemId, size) => {
+    const token = localStorage.getItem("auth-token");
 
-        const key = `${itemId}-${size}`;
+    if (!token) {
+        alert("Please login first");
+        return;
+    }
 
-        setCartItems((prev) => {
-            const updated = { ...prev };
+    const key = `${itemId}-${size}`;
 
-            if (updated[key]?.qty > 1) {
-                updated[key].qty -= 1;
-            } else {
-                delete updated[key];
-            }
+    setCartItems((prev) => {
+        const updated = { ...prev };
 
-            return updated;
-        });
-
-        const token = localStorage.getItem("auth-token");
-
-        if (token) {
-            fetch(`${API_URL}/removefromcart`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "auth-token": token,
-                },
-                body: JSON.stringify({ itemId, size }),
-            }).catch(err => console.log(err));
+        if (updated[key]?.qty > 1) {
+            updated[key].qty -= 1;
+        } else {
+            delete updated[key];
         }
-    };
+
+        return updated;
+    });
+
+    fetch(`${API_URL}/removefromcart`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "auth-token": token,
+        },
+        body: JSON.stringify({ itemId, size }),
+    });
+};
 
     // ================= TOTAL AMOUNT =================
     const getTotalCartAmount = () => {
