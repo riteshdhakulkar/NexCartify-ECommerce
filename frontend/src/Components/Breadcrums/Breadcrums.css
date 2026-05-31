@@ -1,0 +1,195 @@
+.Breadcrums{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin: 40px 120px;
+
+    color: #5e5e5e;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+.Breadcrums img{
+    width: 10px;
+    height: 10px;
+
+    object-fit: contain;
+}
+
+/* ===================== */
+/* 1280px */
+/* ===================== */
+
+@media(max-width:1280px){
+
+    .Breadcrums{
+        margin: 35px 70px;
+
+        font-size: 14px;
+    }
+}
+
+/* ===================== */
+/* 1024px */
+/* ===================== */
+
+@media(max-width:1024px){
+
+    .Breadcrums{
+        margin: 30px 40px;
+
+        gap: 8px;
+
+        font-size: 13px;
+    }
+
+    .Breadcrums img{
+        width: 9px;
+        height: 9px;
+    }
+}
+
+/* ===================== */
+/* 800px */
+/* ===================== */
+
+@media(max-width:800px){
+
+    .Breadcrums{
+        margin: 25px 25px;
+
+        gap: 7px;
+
+        font-size: 12px;
+    }
+
+    .Breadcrums img{
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/* ===================== */
+/* 500px */
+/* ===================== */
+
+@media(max-width:500px){
+
+    .Breadcrums{
+        margin: 18px 15px;
+
+        gap: 5px;
+
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+    .Breadcrums img{
+        width: 7px;
+        height: 7px;
+    }
+}.Breadcrums{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin: 40px 120px;
+
+    color: #5e5e5e;
+
+    font-size: 15px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+.Breadcrums img{
+    width: 10px;
+    height: 10px;
+
+    object-fit: contain;
+}
+
+/* ===================== */
+/* 1280px */
+/* ===================== */
+
+@media(max-width:1280px){
+
+    .Breadcrums{
+        margin: 35px 70px;
+
+        font-size: 14px;
+    }
+}
+
+/* ===================== */
+/* 1024px */
+/* ===================== */
+
+@media(max-width:1024px){
+
+    .Breadcrums{
+        margin: 30px 40px;
+
+        gap: 8px;
+
+        font-size: 13px;
+    }
+
+    .Breadcrums img{
+        width: 9px;
+        height: 9px;
+    }
+}
+
+/* ===================== */
+/* 800px */
+/* ===================== */
+
+@media(max-width:800px){
+
+    .Breadcrums{
+        margin: 25px 25px;
+
+        gap: 7px;
+
+        font-size: 12px;
+    }
+
+    .Breadcrums img{
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/* ===================== */
+/* 500px */
+/* ===================== */
+
+@media(max-width:500px){
+
+    .Breadcrums{
+        margin: 18px 15px;
+
+        gap: 5px;
+
+        font-size: 11px;
+
+        line-height: 1.5;
+    }
+
+    .Breadcrums img{
+        width: 7px;
+        height: 7px;
+    }
+}

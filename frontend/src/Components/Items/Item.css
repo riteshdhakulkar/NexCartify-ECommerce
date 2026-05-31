@@ -1,0 +1,172 @@
+.item{
+    width: 210px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* IMAGE */
+.item img{
+    width: 100%;
+    height: 280px;        /* fixed height */
+    object-fit: cover;    /* crops image nicely */
+    border-radius: 10px;
+    transition: transform 0.4s ease;
+}
+
+.item img:hover{
+    transform: scale(1.05);
+}
+
+/* PRODUCT NAME */
+.item p{
+    font-size: 16px;
+    margin: 12px 0 8px;
+    color: #373737;
+    min-height: 44px;     /* keeps all names aligned */
+    line-height: 1.4;
+}
+
+/* PRICES */
+.item-price{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: auto;     /* keeps prices at same level */
+}
+
+.item-price-new{
+    font-size: 19px;
+    font-weight: 600;
+    color: #171717;
+}
+
+.item-price-old{
+    font-size: 17px;
+    color: gray;
+    text-decoration: line-through;
+}
+
+/* HOVER CARD EFFECT */
+.item:hover{
+    transform: translateY(-5px);
+}
+
+/* ========================= */
+/* 1280px */
+/* ========================= */
+
+@media(max-width:1280px){
+
+    .item{
+        width: 190px;
+    }
+
+    .item img{
+        height: 250px;
+    }
+
+    .item p{
+        font-size: 15px;
+        min-height: 42px;
+    }
+
+    .item-price-new{
+        font-size: 17px;
+    }
+
+    .item-price-old{
+        font-size: 15px;
+    }
+}
+
+/* ========================= */
+/* 1024px */
+/* ========================= */
+
+@media(max-width:1024px){
+
+    .item{
+        width: 170px;
+    }
+
+    .item img{
+        height: 220px;
+    }
+
+    .item p{
+        font-size: 14px;
+        min-height: 40px;
+    }
+
+    .item-price{
+        gap: 10px;
+    }
+
+    .item-price-new{
+        font-size: 16px;
+    }
+
+    .item-price-old{
+        font-size: 14px;
+    }
+}
+
+/* ========================= */
+/* 800px */
+/* ========================= */
+
+@media(max-width:800px){
+
+    .item{
+        width: 170px;
+    }
+
+    .item img{
+        height: 220px;
+    }
+
+    .item p{
+        font-size: 14px;
+        min-height: 40px;
+    }
+}
+
+/* ========================= */
+/* 500px */
+/* ========================= */
+
+@media(max-width:500px){
+
+    .item{
+        width: 150px;
+    }
+
+    .item img{
+        height: 190px;
+    }
+
+    .item p{
+        font-size: 13px;
+        min-height: 36px;
+    }
+
+    .item-price{
+        gap: 8px;
+    }
+
+    .item-price-new{
+        font-size: 15px;
+    }
+
+    .item-price-old{
+        font-size: 13px;
+    }
+}
+.item-link{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
