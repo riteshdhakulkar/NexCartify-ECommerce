@@ -7,9 +7,14 @@
     gap: 15px;
 
     padding: 40px 20px;
-    height: 100px;
+    width: 100%;
+    box-sizing: border-box;
+
+    margin-top: 60px;
 }
 
+/* REMOVE THIS */
+/* height: 100px; */
 /* ===================== */
 /* LOGO */
 /* ===================== */
@@ -208,21 +213,22 @@
 
 @media(max-width:500px){
 
+
     .footer{
         gap: 18px;
-
         padding: 30px 10px;
+        margin-top: 40px;   /* add this */
     }
 
     .footer-logo{
         flex-direction: column;
-
         gap: 8px;
     }
 
     .footer-logo img{
-        width: 200px;
+        width: 140px;      /* was 200px */
     }
+
 
     .footer-logo p{
         font-size: 20px;
