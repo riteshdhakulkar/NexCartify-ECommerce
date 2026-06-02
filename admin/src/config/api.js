@@ -1,6 +1,6 @@
 const API_URL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:4000"
-    : "https://your-backend-url.onrender.com";
+    : "https://nexcartify-ecommerce.onrender.com";
 
 export default API_URL;
