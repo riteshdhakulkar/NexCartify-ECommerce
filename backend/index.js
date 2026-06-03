@@ -56,14 +56,23 @@ const upload = multer({ storage });
 // STATIC IMAGES
 app.use('/images', express.static('upload/images'));
 
-// ✅ FIXED UPLOAD ROUTE (PRODUCTION SAFE)
-app.post("/upload", upload.single('product'), (req, res) => {
+// FIXED UPLOAD ROUTE (PRODUCTION SAFE)
+// app.post("/upload", upload.single('product'), (req, res) => {
+//     res.json({
+//         success: true,
+//         image_url: `https://nexcartify-ecommerce.onrender.com/images/${req.file.filename}`
+//     });
+// });
+
+app.post("/upload", upload.single("product"), (req, res) => {
+
+    console.log("FILE DATA:", req.file);
+
     res.json({
         success: true,
-        image_url: `https://nexcartify-ecommerce.onrender.com/images/${req.file.filename}`
+        image_url: req.file.path,
     });
 });
-
 // PRODUCT MODEL
 const Product = mongoose.model("Product", {
     id: { type: Number, required: true },

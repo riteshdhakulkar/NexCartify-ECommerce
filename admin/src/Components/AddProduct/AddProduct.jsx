@@ -214,18 +214,33 @@ const AddProduct = () => {
     formData.append('product', image);
 
     // ================= UPLOAD IMAGE =================
+    // await fetch(`${API_URL}/upload`, {
+    //   method: 'POST',
+    //   headers: {
+    //     Accept: 'application/json',
+    //   },
+    //   body: formData,
+    // })
+    //   .then((resp) => resp.json())
+    //   .then((data) => {
+    //     responseData = data;
+    //   })
+    //   .catch(err => console.log(err));
     await fetch(`${API_URL}/upload`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
-      body: formData,
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        responseData = data;
-      })
-      .catch(err => console.log(err));
+  method: 'POST',
+  headers: {
+    Accept: 'application/json',
+  },
+  body: formData,
+})
+  .then((resp) => resp.json())
+  .then((data) => {
+
+    console.log("UPLOAD RESPONSE:", data);
+
+    responseData = data;
+  })
+  .catch(err => console.log(err));
 
     // ================= SAVE PRODUCT =================
     if (responseData?.success) {
